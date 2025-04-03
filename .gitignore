@@ -1,0 +1,68 @@
+### MacOS 시스템 파일 ###
+.DS_Store
+
+### Linux 시스템 파일 ###
+*.swp
+
+### Logs ###
+logs/
+*.log
+**/logs/
+**/*.log
+hs_err_pid*
+
+### 환경 설정 파일 (보안) ###
+.env
+*.env
+*.properties
+*.yml
+*.yaml
+**/application.properties
+**/application.yml
+**/application-dev.properties
+**/application-prod.properties
+**/secrets.json
+
+### Maven ###
+.mvn/
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+### Gradle 캐시 ###
+.gradle/
+build/
+gradle-app.setting
+gradle-test-kit/
+!gradle/wrapper/gradle-wrapper.jar
+.gradle-local/
+
+### IDE 관련 설정 파일 ###
+*.iml
+*.ipr
+*.iws
+.idea/
+*.class
+.classpath
+.project
+.settings/
+.springBeans
+.sts4-cache
+.vscode/
+bin/
+out/
+
+### Java & Kotlin 빌드 파일 ###
+**/bin/
+**/out/
+**/target/
+**/build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### Temp Files ###
+tmp/
+temp/
