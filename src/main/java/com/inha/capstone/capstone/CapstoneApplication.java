@@ -1,4 +1,4 @@
-package com.inha.capstone.capstone;  // 패키지 경로
+package com.inha.capstone.capstone;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
