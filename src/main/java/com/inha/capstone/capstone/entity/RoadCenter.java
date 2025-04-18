@@ -3,8 +3,8 @@ package com.inha.capstone.capstone.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "gate_points") // DB 테이블 (건물의 출입구 좌표들)
-public class GatePoint {
+@Table(name = "road_centers")
+public class RoadCenter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,15 +16,12 @@ public class GatePoint {
     @Column(nullable = false)
     private double longitude;
 
+    public RoadCenter() {}
 
-    public GatePoint() {}
-
-
-    public GatePoint(double latitude, double longitude) {
+    public RoadCenter(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
-
 
     public Long getId() {
         return id;
