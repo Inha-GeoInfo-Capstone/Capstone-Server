@@ -1,33 +1,27 @@
 package com.inha.capstone.capstone.service;
 
 import com.inha.capstone.capstone.dto.GpsDataDTO;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Service
 public class GpsService {
 
-    private final RestTemplate restTemplate = new RestTemplate();
-    private static final String FLASK_GPS_URL = "https://127.0.0.1/gps";
+    private final WebClient webClient = WebClient.builder()
+            .baseUrl("https://127.0.0.1") // Flask 서버 주소
+            .build();
 
     public GpsDataDTO fetchCurrentLocation() {
         try {
-            ResponseEntity<GpsDataDTO> response = restTemplate.exchange(
-                    FLASK_GPS_URL,
-                    HttpMethod.GET,
-                    null,
-                    GpsDataDTO.class
-            );
+            Mono<GpsDataDTO> response = webClient.get()
+                    .uri("/gps")
+                    .retrieve()
+                    .bodyToMono(GpsDataDTO.class);
 
-            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-                return response.getBody();
-            } else {
-                throw new RuntimeException("GPS 데이터 수신 실패");
-            }
-
+            return response.block();
         } catch (Exception e) {
-            throw new RuntimeException("Flask GPS 서버와 통신 실패: " + e.getMessage(), e);
+            throw new RuntimeException("Flask 서버와 통신 실패: " + e.getMessage(), e);
         }
     }
 }
