@@ -30,4 +30,5 @@ public class RoadCenterController {
         */
         return repository.saveAll(roadCenters);
     }
+
 }

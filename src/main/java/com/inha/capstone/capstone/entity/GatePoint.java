@@ -45,4 +45,5 @@ public class GatePoint {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
 }
