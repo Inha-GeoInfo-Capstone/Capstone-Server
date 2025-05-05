@@ -8,9 +8,13 @@ import reactor.core.publisher.Mono;
 @Service
 public class GpsService {
 
-    private final WebClient webClient = WebClient.builder()
-            .baseUrl("https://127.0.0.1") // Flask 서버 주소
-            .build();
+    private final WebClient webClient;
+
+    // 의존성 주입 방식으로 코드 변경
+    public GpsService(WebClient webClient) {
+        this.webClient = webClient;
+    }
+
 
     public GpsDataDTO fetchCurrentLocation() {
         try {
