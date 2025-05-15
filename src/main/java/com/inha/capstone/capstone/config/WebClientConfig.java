@@ -25,7 +25,7 @@ public class WebClientConfig {
         // WebClient Bean 생성
         return WebClient.builder()
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
-                .baseUrl("https://127.0.0.1")  // Flask HTTPS 주소
+                .baseUrl("https://inhacapstone.p-e.kr")  // 실제 배포된 Flask 주소로 변경
                 .build();
     }
 }
