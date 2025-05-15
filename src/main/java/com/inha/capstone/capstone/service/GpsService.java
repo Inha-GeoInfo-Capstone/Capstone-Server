@@ -10,11 +10,9 @@ public class GpsService {
 
     private final WebClient webClient;
 
-    // 의존성 주입 방식으로 코드 변경
     public GpsService(WebClient webClient) {
         this.webClient = webClient;
     }
-
 
     public GpsDataDTO fetchCurrentLocation() {
         try {
@@ -23,9 +21,18 @@ public class GpsService {
                     .retrieve()
                     .bodyToMono(GpsDataDTO.class);
 
-            return response.block();
+            GpsDataDTO data = response.block(); // 동기 방식
+            if (data != null) {
+                System.out.printf("Flask에서 수신한 위치: 위도 %.7f, 경도 %.7f, SNR %.14f\n",
+                        data.getLatitude(), data.getLongitude(), data.getSnr());
+            } else {
+                System.out.println("Flask에서 데이터를 받았지만 내용이 없음.");
+            }
+
+            return data;
         } catch (Exception e) {
-            throw new RuntimeException("Flask 서버와 통신 실패: " + e.getMessage(), e);
+            System.err.println("Flask 서버에서 위치 정보 수신 실패: " + e.getMessage());
+            throw new RuntimeException("Flask 서버와 통신 실패", e);
         }
     }
 }

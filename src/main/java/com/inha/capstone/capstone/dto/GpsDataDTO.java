@@ -3,7 +3,7 @@ package com.inha.capstone.capstone.dto;
 public class GpsDataDTO {
     private double latitude;
     private double longitude;
-    private int snr;
+    private double snr;
 
     // getters/setters
     public double getLatitude() {
@@ -22,11 +22,11 @@ public class GpsDataDTO {
         this.longitude = longitude;
     }
 
-    public int getSnr() {
+    public double getSnr() {
         return snr;
     }
 
-    public void setSnr(int snr) {
+    public void setSnr(double snr) {
         this.snr = snr;
     }
 }
