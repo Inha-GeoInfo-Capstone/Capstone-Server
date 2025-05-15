@@ -18,11 +18,15 @@ public class RoadLink {
     @JoinColumn(name = "to_center_id", nullable = false)
     private RoadCenter to;
 
+    @Column(nullable = false)
+    private double distance;
+
     public RoadLink() {}
 
     public RoadLink(RoadCenter from, RoadCenter to) {
         this.from = from;
         this.to = to;
+        this.distance = distance;
     }
 
     public Long getId() {
@@ -35,5 +39,21 @@ public class RoadLink {
 
     public RoadCenter getTo() {
         return to;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setFrom(RoadCenter from) {
+        this.from = from;
+    }
+
+    public void setTo(RoadCenter to) {
+        this.to = to;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 }
