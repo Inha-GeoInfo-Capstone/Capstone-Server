@@ -23,7 +23,7 @@ public class RoadLink {
 
     public RoadLink() {}
 
-    public RoadLink(RoadCenter from, RoadCenter to) {
+    public RoadLink(RoadCenter from, RoadCenter to, double distance) {
         this.from = from;
         this.to = to;
         this.distance = distance;

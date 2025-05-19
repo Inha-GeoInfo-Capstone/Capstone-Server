@@ -109,4 +109,9 @@ public class NavigationService {
         Collections.reverse(path); // 역순 → 정방향 경로로 전환
         return path;
     }
+
+    public RoadCenter getRoadCenterById(Long id) {
+        return roadCenterRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ID에 해당하는 도로 중심점이 없습니다."));
+    }
 }

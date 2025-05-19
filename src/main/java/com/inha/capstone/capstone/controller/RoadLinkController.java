@@ -25,4 +25,10 @@ public class RoadLinkController {
     public RoadLink createLink(@RequestParam Long fromId, @RequestParam Long toId) {
         return service.createLink(fromId, toId);
     }
+
+    @PostMapping("/auto-connect")
+    public String autoConnect() {
+        service.connectSequentialCenters();
+        return "자동 연결 완료";
+    }
 }
