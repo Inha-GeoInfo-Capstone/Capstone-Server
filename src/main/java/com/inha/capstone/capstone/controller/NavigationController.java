@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,10 @@ public class NavigationController {
         RoadCenter end = navigationService.getRoadCenterById(destinationId);
         List<RoadCenter> path = navigationService.findShortestPath(start, end);
 
+        System.out.println("최단경로 출발지: " + start.getLatitude() + ", " + start.getLongitude());
+        System.out.println("최단경로 도착지: " + end.getLatitude() + ", " + end.getLongitude());
+        System.out.println("최단경로 결과 길이: " + path.size());
+
         // 프론트에서 polyline으로 경로를 그리기 위해 위도,경도 추출
         return path.stream().map(center -> {
             Map<String, Double> point = new HashMap<>();
@@ -40,5 +45,57 @@ public class NavigationController {
             point.put("lng", center.getLongitude());
             return point;
         }).toList();
+    }
+
+    @GetMapping("/current-location")
+    public GpsDataDTO getCurrentLocation() {
+        return gpsService.getLastLocation(); // GPS 위치 최신 데이터 반환
+    }
+
+    @GetMapping("/shortest-path-from-current")
+    public List<Map<String, Double>> getPathFromCurrentToDestination(@RequestParam(name = "destinationId") Long destinationId) {
+        GpsDataDTO current = gpsService.getLastLocation(); // Flask 수신 위치
+        RoadCenter start = navigationService.findNearestCenter(current.getLatitude(), current.getLongitude());
+        RoadCenter end = navigationService.getRoadCenterById(destinationId);
+
+        List<RoadCenter> path = navigationService.findShortestPath(start, end);
+
+        // 실제 GPS 좌표 추가
+        List<Map<String, Double>> pathWithStart = new ArrayList<>();
+
+        // 실시간 GPS -> 도로 중심점까지 선을 위한 마커 1개 추가
+        Map<String, Double> realStart = new HashMap<>();
+        realStart.put("lat", current.getLatitude());
+        realStart.put("lng", current.getLongitude());
+        pathWithStart.add(realStart);
+
+        for (RoadCenter center : path) {
+            Map<String, Double> point = new HashMap<>();
+            point.put("lat", center.getLatitude());
+            point.put("lng", center.getLongitude());
+            pathWithStart.add(point);
+        }
+
+        return pathWithStart;
+    }
+
+    @GetMapping("/nearest-connection")
+    public List<Map<String, Double>> getConnectionToNearestCenter() {
+        GpsDataDTO current = gpsService.getLastLocation();
+        RoadCenter nearest = navigationService.findNearestCenter(current.getLatitude(), current.getLongitude());
+
+        List<Map<String, Double>> list = new ArrayList<>();
+
+        Map<String, Double> gps = new HashMap<>();
+        gps.put("lat", current.getLatitude());
+        gps.put("lng", current.getLongitude());
+        list.add(gps);
+
+        Map<String, Double> center = new HashMap<>();
+        center.put("lat", nearest.getLatitude());
+        center.put("lng", nearest.getLongitude());
+        list.add(center);
+
+        return list;
     }
 }
