@@ -1,7 +1,9 @@
 package com.inha.capstone.capstone.controller;
 
 import com.inha.capstone.capstone.dto.GpsDataDTO;
+import com.inha.capstone.capstone.entity.GatePoint;
 import com.inha.capstone.capstone.entity.RoadCenter;
+import com.inha.capstone.capstone.repository.GatePointRepository;
 import com.inha.capstone.capstone.service.GpsService;
 import com.inha.capstone.capstone.service.NavigationService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +22,12 @@ public class NavigationController {
 
     private final NavigationService navigationService;
     private final GpsService gpsService; // 실시간 위치 사용
+    private final GatePointRepository gatePointRepository;
 
-    public NavigationController(NavigationService navigationService,GpsService gpsService) {
+    public NavigationController(NavigationService navigationService,GpsService gpsService,GatePointRepository gatePointRepository) {
         this.navigationService = navigationService;
         this.gpsService = gpsService;
+        this.gatePointRepository = gatePointRepository;
     }
 
     @GetMapping("/shortest-path")
@@ -97,5 +101,14 @@ public class NavigationController {
         list.add(center);
 
         return list;
+    }
+
+    @GetMapping("/gate-to-road-center")
+    public Long convertGateToRoadCenter(@RequestParam(name = "gateId") Long gateId) {
+        GatePoint gate = gatePointRepository.findById(gateId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 Gate ID가 존재하지 않음"));
+
+        RoadCenter nearest = navigationService.findNearestCenter(gate.getLatitude(), gate.getLongitude());
+        return nearest.getId();
     }
 }
