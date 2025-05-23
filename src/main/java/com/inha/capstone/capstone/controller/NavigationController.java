@@ -78,4 +78,24 @@ public class NavigationController {
 
         return pathWithStart;
     }
+
+    @GetMapping("/nearest-connection")
+    public List<Map<String, Double>> getConnectionToNearestCenter() {
+        GpsDataDTO current = gpsService.getLastLocation();
+        RoadCenter nearest = navigationService.findNearestCenter(current.getLatitude(), current.getLongitude());
+
+        List<Map<String, Double>> list = new ArrayList<>();
+
+        Map<String, Double> gps = new HashMap<>();
+        gps.put("lat", current.getLatitude());
+        gps.put("lng", current.getLongitude());
+        list.add(gps);
+
+        Map<String, Double> center = new HashMap<>();
+        center.put("lat", nearest.getLatitude());
+        center.put("lng", nearest.getLongitude());
+        list.add(center);
+
+        return list;
+    }
 }
