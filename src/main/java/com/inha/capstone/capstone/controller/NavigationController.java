@@ -45,4 +45,9 @@ public class NavigationController {
             return point;
         }).toList();
     }
+
+    @GetMapping("/current-location")
+    public GpsDataDTO getCurrentLocation() {
+        return gpsService.getLastLocation(); // GPS 위치 최신 데이터 반환
+    }
 }
