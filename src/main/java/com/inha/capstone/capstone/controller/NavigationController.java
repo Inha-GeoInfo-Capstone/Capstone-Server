@@ -26,7 +26,7 @@ public class NavigationController {
     }
 
     @GetMapping("/shortest-path")
-    public List<Map<String, Double>> getShortestPath(@RequestParam Long destinationId) {
+    public List<Map<String, Double>> getShortestPath(@RequestParam(name = "destinationId") Long destinationId) {
         GpsDataDTO current = gpsService.getLastLocation(); // 실시간 저장 위치 사용
 
         RoadCenter start = navigationService.findNearestCenter(current.getLatitude(), current.getLongitude());
