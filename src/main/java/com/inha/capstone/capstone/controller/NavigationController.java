@@ -33,6 +33,10 @@ public class NavigationController {
         RoadCenter end = navigationService.getRoadCenterById(destinationId);
         List<RoadCenter> path = navigationService.findShortestPath(start, end);
 
+        System.out.println("최단경로 출발지: " + start.getLatitude() + ", " + start.getLongitude());
+        System.out.println("최단경로 도착지: " + end.getLatitude() + ", " + end.getLongitude());
+        System.out.println("최단경로 결과 길이: " + path.size());
+
         // 프론트에서 polyline으로 경로를 그리기 위해 위도,경도 추출
         return path.stream().map(center -> {
             Map<String, Double> point = new HashMap<>();
