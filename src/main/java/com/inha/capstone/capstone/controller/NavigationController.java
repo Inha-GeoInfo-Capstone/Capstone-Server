@@ -111,4 +111,9 @@ public class NavigationController {
         RoadCenter nearest = navigationService.findNearestCenter(gate.getLatitude(), gate.getLongitude());
         return nearest.getId();
     }
+
+    @GetMapping("/nearest-center")
+    public Long getNearestCenterByLatLng(@RequestParam double lat, @RequestParam double lng) {
+        return navigationService.findNearestCenter(lat, lng).getId();
+    }
 }
