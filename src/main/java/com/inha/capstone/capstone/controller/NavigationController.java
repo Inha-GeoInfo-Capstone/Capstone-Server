@@ -118,7 +118,7 @@ public class NavigationController {
     }
 
     @GetMapping("/gate-id-by-name")
-    public Long getGateIdByName(@RequestParam String name) {
+    public Long getGateIdByName(@RequestParam("name") String name) {
         GatePoint gate = gatePointRepository.findByName(name)
                 .orElseThrow(() -> new IllegalArgumentException("해당 이름의 출입구가 존재하지 않습니다."));
         return gate.getId();
