@@ -16,13 +16,17 @@ public class GatePoint {
     @Column(nullable = false)
     private double longitude;
 
+    @Column(nullable = false)
+    private String name;
+
 
     public GatePoint() {}
 
 
-    public GatePoint(double latitude, double longitude) {
+    public GatePoint(double latitude, double longitude, String name) {
         this.latitude = latitude;
         this.longitude = longitude;
+        this.name = name;
     }
 
 
@@ -38,12 +42,20 @@ public class GatePoint {
         return longitude;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

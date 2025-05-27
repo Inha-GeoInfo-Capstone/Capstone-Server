@@ -111,4 +111,16 @@ public class NavigationController {
         RoadCenter nearest = navigationService.findNearestCenter(gate.getLatitude(), gate.getLongitude());
         return nearest.getId();
     }
+
+    @GetMapping("/nearest-center")
+    public Long getNearestCenterByLatLng(@RequestParam double lat, @RequestParam double lng) {
+        return navigationService.findNearestCenter(lat, lng).getId();
+    }
+
+    @GetMapping("/gate-id-by-name")
+    public Long getGateIdByName(@RequestParam("name") String name) {
+        GatePoint gate = gatePointRepository.findByName(name)
+                .orElseThrow(() -> new IllegalArgumentException("해당 이름의 출입구가 존재하지 않습니다."));
+        return gate.getId();
+    }
 }
