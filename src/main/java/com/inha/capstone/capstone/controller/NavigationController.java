@@ -116,4 +116,11 @@ public class NavigationController {
     public Long getNearestCenterByLatLng(@RequestParam double lat, @RequestParam double lng) {
         return navigationService.findNearestCenter(lat, lng).getId();
     }
+
+    @GetMapping("/gate-id-by-name")
+    public Long getGateIdByName(@RequestParam String name) {
+        GatePoint gate = gatePointRepository.findByName(name)
+                .orElseThrow(() -> new IllegalArgumentException("해당 이름의 출입구가 존재하지 않습니다."));
+        return gate.getId();
+    }
 }
