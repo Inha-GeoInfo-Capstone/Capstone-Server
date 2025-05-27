@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/navigation")
@@ -122,5 +123,38 @@ public class NavigationController {
         GatePoint gate = gatePointRepository.findByName(name)
                 .orElseThrow(() -> new IllegalArgumentException("해당 이름의 출입구가 존재하지 않습니다."));
         return gate.getId();
+    }
+
+    @GetMapping("/gate-name-suggestions")
+    public List<String> suggestGateNames(@RequestParam("query") String query) {
+        return gatePointRepository.findByNameContaining(query).stream()
+                .map(GatePoint::getName)
+                .toList();
+    }
+
+    @GetMapping("/destination-to-nearest-gate")
+    public Map<String, Double> getNearestGateToDestination(@RequestParam("centerId") Long centerId) {
+        RoadCenter destination = navigationService.getRoadCenterById(centerId);
+
+        List<GatePoint> allGates = gatePointRepository.findAll();
+
+        GatePoint nearestGate = null;
+        double minDistance = Double.MAX_VALUE;
+
+        for (GatePoint gate : allGates) {
+            double dist = navigationService.calculateDistance(
+                    destination.getLatitude(), destination.getLongitude(),
+                    gate.getLatitude(), gate.getLongitude());
+
+            if (dist < minDistance) {
+                minDistance = dist;
+                nearestGate = gate;
+            }
+        }
+
+        Map<String, Double> result = new HashMap<>();
+        result.put("lat", nearestGate.getLatitude());
+        result.put("lng", nearestGate.getLongitude());
+        return result;
     }
 }
