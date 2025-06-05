@@ -1,6 +1,7 @@
 package com.inha.capstone.capstone.apiPayload.code.status;
 
 import com.inha.capstone.capstone.apiPayload.code.BaseCode;
+import com.inha.capstone.capstone.apiPayload.code.ReasonDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -34,3 +35,4 @@ public enum SuccessStatus implements BaseCode {
                 .build();
     }
 }
+
