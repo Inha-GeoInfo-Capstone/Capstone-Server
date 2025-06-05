@@ -86,6 +86,9 @@ public class NavigationService {
 
             for (RoadLink link : neighbors) {
                 RoadCenter neighbor = link.getTo();
+
+                if (link.getDistance() > 1000.0) continue;
+
                 double alt = distance.get(current) + link.getDistance(); // 현재까지 거리 + 연결 거리
 
                 // 만약 더 짧은 경로가 발견되면 갱신
