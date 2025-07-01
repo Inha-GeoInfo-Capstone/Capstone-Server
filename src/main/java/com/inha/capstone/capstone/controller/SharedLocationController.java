@@ -34,15 +34,15 @@ public class SharedLocationController {
 
     @PostMapping
     @Operation(summary = "위치 공유 생성", description = "현재 위치를 공유 가능한 ID로 생성합니다.")
-    public ResponseEntity<ApiResponse<Long>> shareLocation(@RequestParam double lat,
-                                                           @RequestParam double lng) {
+    public ResponseEntity<ApiResponse<Long>> shareLocation(@RequestParam(name = "lat") double lat,
+                                                           @RequestParam(name = "lng") double lng) {
         Long sharedId = sharedLocationService.createSharedLocation(lat, lng);
         return ResponseEntity.ok(ApiResponse.of(SuccessStatus._OK, sharedId));
     }
 
     @GetMapping("/{id}/navigate")
     @Operation(summary = "공유 위치로 길찾기", description = "공유된 위치를 바탕으로 현재 위치에서 길찾기 경로를 반환합니다.")
-    public ResponseEntity<ApiResponse<List<Map<String, Double>>>> navigateToSharedLocation(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<List<Map<String, Double>>>> navigateToSharedLocation(@PathVariable(name = "id") Long id) {
         SharedLocation target = sharedLocationService.getSharedLocation(id);
 
         GpsDataDTO current = gpsService.getLastLocation();
