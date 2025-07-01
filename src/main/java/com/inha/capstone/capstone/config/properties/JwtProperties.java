@@ -1,4 +1,4 @@
-package com.inha.capstone.capstone.config;
+package com.inha.capstone.capstone.config.properties;
 
 import lombok.Getter;
 import lombok.Setter;
